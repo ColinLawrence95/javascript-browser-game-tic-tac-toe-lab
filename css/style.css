@@ -1,0 +1,79 @@
+body {
+  background: url(./images/background.jpg) no-repeat center center fixed;
+  font-family: "MedievalSharp", sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  
+}
+body.flash {
+  animation: flashBackground 0.5s ease-in-out;
+}
+h1, h2 {
+  font-size: 50px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  color: rgb(0, 0, 0);
+  
+}
+button {
+  font-family: "MedievalSharp", sans-serif;
+  font-weight: bold;
+  background-image: linear-gradient(to bottom right, rgb(0, 132, 255), white);
+  font-size: 30px;
+  padding: 10px 20px ;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-left: 5px;
+}
+.container {
+  text-align: center;
+}
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 325px;
+  margin-left: 12%;
+  margin-bottom: 50%;
+}
+
+  .sqr {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    aspect-ratio: 1/1;
+    border: 4px dotted rgb(46, 46, 46);
+    font-size: 64px;
+    text-align: center;
+  }
+  .sqr.win {
+    background-color: #65c7ff;  
+    animation: winAnimation 0.5s ease-in-out;
+}
+#mute{
+  font-size: 12px;
+  font-weight: bolder;
+  padding: 5px 10px;
+  margin-top: 10px;
+  background-image: none;
+  background-color: rgb(112, 42, 103);
+  color: white;
+
+}
+
+@keyframes winAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes flashBackground {
+  0% { background-color: rgb(0, 245, 0); }
+  50% { background-color: rgb(255, 255, 255); }
+  100% { background-color: rgb(43, 255, 0); }
+}
+
+
