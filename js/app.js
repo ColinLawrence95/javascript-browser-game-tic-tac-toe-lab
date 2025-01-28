@@ -9,6 +9,12 @@ const winningCombos = [
     [0, 4, 8],
     [2, 4, 6],
 ];
+//sounds
+const backgroundMusicSong = new Audio("./sounds/backgroundMusic.mp3");
+const winSound = new Audio("./sounds/winSound.mp3");
+const swordPlace = new Audio("./sounds/swordPlace.mp3");
+const shieldPlace = new Audio("./sounds/shieldPlace.mp3");
+const tieSound = new Audio("./sounds/tieSound.mp3");
 /*---------------------------- Variables (state) ----------------------------*/
 let board;
 let turn;
@@ -17,13 +23,25 @@ let tie;
 let winSoundVolume = 0.08;
 let backgroundMusicVolume = 0.02;
 let backgroundMusicMuted;
+let swordPlaceVolume = 0.25;
+let shieldPlaceVolume = 0.25;
+let tieSoundVolume = 0.08;
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr");
-const messageEL = document.querySelector("#message");
+const messageEl = document.querySelector("#message");
 const resetBtnEl = document.querySelector("#reset");
-const mutebtnEL = document.querySelector("#mute");
-
+const muteBtnEl = document.querySelector("#mute");
+const playBtnEl = document.querySelector("#play");
+const displayEl = document.querySelector(".HUD");
 /*-------------------------------- Functions --------------------------------*/
+/**
+ * makes the graphics visable and plays background music
+ */
+function startGame() {
+    displayEl.style.display = "flex";
+    playBtnEl.style.display = "none";
+    backgroundMusic();
+}
 /**
  * inittilizes game to its starting point.
  */
@@ -36,7 +54,7 @@ function init() {
     squareEls.forEach((cell) => {
         cell.classList.remove("win");
     });
-    backgroundMusic();
+
     render();
 }
 /**
@@ -60,11 +78,11 @@ function updateBoard() {
  */
 function updateMessage() {
     if (winner === false && tie === false) {
-        messageEL.textContent = `${turn}'s Turn`;
+        messageEl.textContent = `${turn}'s Turn`;
     } else if (winner === false && tie === true) {
-        messageEL.textContent = "It's a tie!";
+        messageEl.textContent = "It's a tie!";
     } else {
-        messageEL.textContent = `${turn} has won!`;
+        messageEl.textContent = `${turn} has won!`;
     }
 }
 /**
@@ -89,6 +107,15 @@ function handleClick(event) {
  */
 function placePiece(index) {
     board[index] = turn;
+    if (turn === "⚔️") {
+        swordPlace.currentTime = 0;
+        swordPlace.volume = swordPlaceVolume;
+        swordPlace.play();
+    } else {
+        shieldPlace.currentTime = 0;
+        shieldPlace.volume = shieldPlaceVolume;
+        shieldPlace.play();
+    }
 }
 /**
  * Determines if a win state is present and plays a little fun animation
@@ -112,6 +139,9 @@ function checkForWinner() {
 function checkForTie() {
     if (!board.includes("")) {
         tie = true;
+        tieSound.currentTime = 0;
+        tieSound.volume = tieSoundVolume;
+        tieSound.play();
     } else {
         tie === false;
     }
@@ -132,7 +162,7 @@ function switchPlayerTurn() {
 }
 function winJuice(a, b, c) {
     //win animation and sound
-    const winSound = new Audio("./sounds/winSound.mp3");
+
     winSound.preload = "auto";
     winSound.volume = winSoundVolume;
     winSound.play();
@@ -149,12 +179,11 @@ function winJuice(a, b, c) {
  * mustes background music
  */
 function mute() {
-    const backgroundMusic = document.getElementById("background-music");
     backgroundMusicMuted = !backgroundMusicMuted;
     if (backgroundMusicMuted) {
-        backgroundMusic.volume = 0;
+        backgroundMusicSong.volume = 0;
     } else {
-        backgroundMusic.volume = backgroundMusicVolume;
+        backgroundMusicSong.volume = backgroundMusicVolume;
     }
 }
 
@@ -162,14 +191,13 @@ function mute() {
  * Sets the background music to the correct volume based on mute state
  */
 function backgroundMusic() {
-    const backgroundMusic = document.getElementById("background-music");
     backgroundMusic.preload = "auto";
     if (!backgroundMusicMuted) {
-        backgroundMusic.volume = backgroundMusicVolume;
+        backgroundMusicSong.volume = backgroundMusicVolume;
     } else {
-        backgroundMusic.volume = 0;
+        backgroundMusicSong.volume = 0;
     }
-    backgroundMusic.play();
+    backgroundMusicSong.play();
 }
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -179,6 +207,9 @@ squareEls.forEach((square) => {
 });
 //listening for reset button to be clicked
 document.querySelector("#reset").addEventListener("click", init);
+//listening for mute button
 document.querySelector("#mute").addEventListener("click", mute);
+//listening for play button
+document.querySelector("#play").addEventListener("click", startGame);
 /*----------------------------- MAIN -----------------------------*/
 init();
