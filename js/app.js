@@ -169,11 +169,6 @@ function winJuice(a, b, c) {
     squareEls[a].classList.add("win");
     squareEls[b].classList.add("win");
     squareEls[c].classList.add("win");
-    document.body.classList.add("flash");
-    //stoping background flash
-    setTimeout(() => {
-        document.body.classList.remove("flash");
-    }, 1000);
 }
 /**
  * mustes background music
