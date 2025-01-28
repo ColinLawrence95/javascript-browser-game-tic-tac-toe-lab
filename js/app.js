@@ -137,7 +137,7 @@ function checkForWinner() {
  * Checks if any open spaces are left. If none then a tie is declared
  */
 function checkForTie() {
-    if (!board.includes("")) {
+    if (!board.includes("") && winner === false) {
         tie = true;
         tieSound.currentTime = 0;
         tieSound.volume = tieSoundVolume;
