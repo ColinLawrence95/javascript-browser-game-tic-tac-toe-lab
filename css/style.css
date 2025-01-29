@@ -8,9 +8,6 @@ body {
   align-items: center; /* Centers content both horizontally and vertically */
   flex-direction: column;
 }
-
-
-
 h1,
 h2 {
   font-size: 60px;
@@ -74,16 +71,10 @@ button#reset {
   border: 4px dotted rgb(46, 46, 46);
   font-size: 64px;
 }
-
 .sqr.win {
   background-color: #65c7ff;
   animation: winAnimation 0.5s ease-in-out;
 }
-
-body.flash {
-  animation: flashBackground 0.5s ease-in-out;
-}
-
 @keyframes winAnimation {
   0% {
     transform: scale(1);
